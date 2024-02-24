@@ -31,7 +31,7 @@ public static class CodeTimingSessionManager
     static CodeTimingSessionManager()
     {
 #if DEBUG
-        IsEnabled = !IsRunningInTest() && !IsRunningInBenchmark();
+        IsEnabled = !IsRunningInTest() && !IsRunningInBenchmark() && !IsRunningInFuzzer();
 #else
         IsEnabled = false;
 #endif
@@ -50,6 +50,11 @@ public static class CodeTimingSessionManager
     private static bool IsRunningInBenchmark()
     {
         return Assembly.GetEntryAssembly()?.GetName().Name == "Benchmarks";
+    }
+
+    private static bool IsRunningInFuzzer()
+    {
+        return Assembly.GetEntryAssembly()?.GetName().Name == "Fuzzer";
     }
 
     private static void AssertHasActiveSession()

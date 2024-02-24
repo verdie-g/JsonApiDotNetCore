@@ -1,0 +1,1 @@
+include=author,comments&filter=equals(author.userName,'Smith')&filter[comments]=any(numStars,'1','2')
