@@ -3,7 +3,7 @@
 "="
 "&"
 
-# Operators
+# Filtering Operators
 "equals"
 "lessThan"
 "lessOrEqual"
@@ -18,6 +18,19 @@
 "not"
 "or"
 "and"
+
+# Sorting Operators
+"sort"
+"-"
+"count"
+
+# Pagination Operators
+"page"
+"size"
+"number"
+
+# Sparse Fieldset Selection Operators
+"fields"
 
 # Tokens
 ","

@@ -12,22 +12,9 @@ using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging.Abstractions;
 
 #pragma warning disable AV1210
-
-SharpFuzz.Fuzzer.OutOfProcess.Run(input =>
+SharpFuzz.Fuzzer.Run(input =>
 {
-    QueryCollection queryCollection;
-    try
-    {
-        queryCollection = new QueryCollection(QueryHelpers.ParseQuery(input));
-    }
-    catch
-    {
-        return;
-    }
-
     IJsonApiOptions options = new JsonApiOptions();
-
-    FakeRequestQueryStringAccessor queryStringAccessor = new(queryCollection);
 
     IResourceGraph resourceGraph = new ResourceGraphBuilder(options, NullLoggerFactory.Instance)
         .Add<WebAccount, int>()
@@ -70,6 +57,17 @@ SharpFuzz.Fuzzer.OutOfProcess.Run(input =>
         paginationReader
     ];
 
+    QueryCollection queryCollection;
+    try
+    {
+        queryCollection = new QueryCollection(QueryHelpers.ParseQuery("&include=author&include=author,comments'"));
+    }
+    catch
+    {
+        return;
+    }
+
+    FakeRequestQueryStringAccessor queryStringAccessor = new(queryCollection);
     QueryStringReader queryStringReader = new(options, queryStringAccessor, readers, NullLoggerFactory.Instance);
 
     try
